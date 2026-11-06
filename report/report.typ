@@ -6,8 +6,8 @@
 // GROUP DATA - edit here (names, student IDs, division of work)
 // ============================================================================
 #let members = (
-  (name: "Julian Hugentobler", id: "________"),
-  (name: "________________", id: "________"),
+  (name: "Julian Hugentobler", id: "26012945X"),
+  (name: "Yeung Yu On", id: "26019859D"),
 )
 #let member-a = members.at(0).name
 #let member-b = members.at(1).name
