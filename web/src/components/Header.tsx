@@ -2,10 +2,10 @@ import { Activity, Eye, LogOut, Users } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { api } from '../lib/api'
 import { useStore } from '../store'
-import { cx } from './ui'
+import { cx } from '../lib/cx'
 
 function Clock() {
-  const [now, setNow] = useState(new Date())
+  const [now, setNow] = useState(() => new Date())
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000)
     return () => clearInterval(id)

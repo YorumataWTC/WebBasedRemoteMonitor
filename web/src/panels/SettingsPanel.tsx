@@ -1,5 +1,5 @@
 import { Bell, Camera, Mic, MonitorSmartphone, Radar, ScanFace } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Row, Section, Toggle } from '../components/ui'
 import { requestNotifications } from '../lib/alarm'
 import { api } from '../lib/api'
@@ -11,8 +11,12 @@ import { useStore } from '../store'
 const select = 'rounded-lg border border-line bg-bg px-2 py-1 text-sm outline-none focus:border-accent'
 
 function Slider({ value, min, max, step = 1, unit, onChange }: { value: number; min: number; max: number; step?: number; unit?: string; onChange: (v: number) => void }) {
-  const [local, setLocal] = useState(value)
-  useEffect(() => setLocal(value), [value])
+  const [local, setLocal] = useState<number | null>(null) // non-null only while dragging
+  const shown = local ?? value
+  const commit = () => {
+    if (local !== null) onChange(local)
+    setLocal(null)
+  }
   return (
     <div className="flex items-center gap-2">
       <input
@@ -20,14 +24,14 @@ function Slider({ value, min, max, step = 1, unit, onChange }: { value: number; 
         min={min}
         max={max}
         step={step}
-        value={local}
+        value={shown}
         onChange={(e) => setLocal(Number(e.target.value))}
-        onPointerUp={() => onChange(local)}
-        onKeyUp={() => onChange(local)}
+        onPointerUp={commit}
+        onKeyUp={commit}
         className="w-28"
       />
       <span className="w-16 text-right font-mono text-xs text-muted">
-        {local}
+        {shown}
         {unit}
       </span>
     </div>
@@ -42,8 +46,7 @@ export function SettingsPanel() {
   const transport = useStore((s) => s.transport)
   const toast = useStore((s) => s.toast)
   const nameTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
-  const [name, setName] = useState(settings?.camera_name ?? '')
-  useEffect(() => setName(settings?.camera_name ?? ''), [settings?.camera_name])
+  const [nameDraft, setNameDraft] = useState<string | null>(null)
 
   if (!settings) return null
 
@@ -65,11 +68,12 @@ export function SettingsPanel() {
       <Section title="Camera & stream" icon={<Camera size={13} />}>
         <Row label="Camera name">
           <input
-            value={name}
+            value={nameDraft ?? settings.camera_name}
+            onBlur={() => setNameDraft(null)}
             maxLength={40}
             className={`${select} w-36`}
             onChange={(e) => {
-              setName(e.target.value)
+              setNameDraft(e.target.value)
               clearTimeout(nameTimer.current)
               const v = e.target.value
               nameTimer.current = setTimeout(() => v.trim() && patch({ camera_name: v.trim() }), 600)

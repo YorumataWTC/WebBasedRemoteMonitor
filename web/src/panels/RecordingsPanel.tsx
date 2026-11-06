@@ -1,6 +1,7 @@
 import { Download, Film, Play, RefreshCw, Trash2 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
-import { Badge, Button, Empty, formatBytes, formatDuration, Modal } from '../components/ui'
+import { Badge, Button, Empty, Modal } from '../components/ui'
+import { formatBytes, formatDuration } from '../lib/format'
 import { api, urls, type RecordingItem } from '../lib/api'
 import { useStore } from '../store'
 

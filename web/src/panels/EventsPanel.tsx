@@ -1,6 +1,7 @@
 import { Activity, AlertTriangle, Bell, Film, Info, ScanFace, Shield, Trash2, UserCheck, UserX, Volume2 } from 'lucide-react'
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
-import { Button, cx, Empty, Modal } from '../components/ui'
+import { Button, Empty, Modal } from '../components/ui'
+import { cx } from '../lib/cx'
 import { api, urls } from '../lib/api'
 import type { MonitorEvent } from '../lib/protocol'
 import { useStore } from '../store'

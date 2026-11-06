@@ -22,7 +22,8 @@ import { api, urls } from '../lib/api'
 import { connection } from '../lib/connection'
 import { drawOverlay } from '../lib/overlay'
 import { useStore } from '../store'
-import { cx, IconButton } from './ui'
+import { IconButton } from './ui'
+import { cx } from '../lib/cx'
 
 function VuMeter({ db }: { db: number }) {
   const pct = Math.max(0, Math.min(1, (db + 60) / 60))
@@ -59,7 +60,8 @@ export function VideoStage() {
 
   const [zoom, setZoom] = useState(1)
   const [pan, setPan] = useState({ x: 0, y: 0 })
-  const [now, setNow] = useState(Date.now())
+  const [now, setNow] = useState(() => Date.now())
+  const [dragging, setDragging] = useState(false)
   const [showOverlayMenu, setShowOverlayMenu] = useState(false)
   const drag = useRef<{ x: number; y: number; px: number; py: number } | null>(null)
 
@@ -113,6 +115,7 @@ export function VideoStage() {
     if (zoom === 1) return
     ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
     drag.current = { x: e.clientX, y: e.clientY, px: pan.x, py: pan.y }
+    setDragging(true)
   }
   function onPointerMove(e: PointerEvent) {
     const d = drag.current
@@ -178,10 +181,13 @@ export function VideoStage() {
           <div className="relative overflow-hidden" style={{ aspectRatio: `${vw} / ${vh}`, width: `min(100cqw, calc(100cqh * ${vw / vh}))` }}>
             <div
               className={cx('absolute inset-0', zoom > 1 && 'cursor-grab active:cursor-grabbing')}
-              style={{ transform: `scale(${zoom}) translate(${pan.x * 100}%, ${pan.y * 100}%)`, transition: drag.current ? 'none' : 'transform 120ms ease-out' }}
+              style={{ transform: `scale(${zoom}) translate(${pan.x * 100}%, ${pan.y * 100}%)`, transition: dragging ? 'none' : 'transform 120ms ease-out' }}
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
-              onPointerUp={() => (drag.current = null)}
+              onPointerUp={() => {
+                drag.current = null
+                setDragging(false)
+              }}
             >
               {transport === 'webcodecs' ? (
                 <canvas ref={videoCanvas} className="h-full w-full object-contain" />

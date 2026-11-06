@@ -1,6 +1,7 @@
 import { Cpu, Gauge, MonitorPlay, Network, Server } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { Badge, formatDuration, Section } from '../components/ui'
+import { Badge, Section } from '../components/ui'
+import { formatDuration } from '../lib/format'
 import { useStore } from '../store'
 
 function Sparkline({ data, color, max }: { data: number[]; color: string; max?: number }) {

@@ -1,6 +1,6 @@
 import { AlertTriangle, CheckCircle2, Info, XCircle } from 'lucide-react'
 import { useStore } from '../store'
-import { cx } from './ui'
+import { cx } from '../lib/cx'
 
 export function Toasts() {
   const toasts = useStore((s) => s.toasts)

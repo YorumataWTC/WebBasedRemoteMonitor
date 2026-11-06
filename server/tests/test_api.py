@@ -6,6 +6,7 @@ import time
 import av
 import pytest
 from fastapi.testclient import TestClient
+from starlette.websockets import WebSocketDisconnect
 
 from remote_monitor.app import create_app
 from remote_monitor.config import ServerConfig
@@ -122,7 +123,7 @@ def test_authentication(tmp_path, pw):
         assert client.get("/api/session").json() == {"authRequired": True, "authenticated": False,
                                                      "version": client.get("/api/health").json()["version"]}
         assert client.get("/api/status").status_code == 401
-        with pytest.raises(Exception), client.websocket_connect("/ws") as ws:
+        with pytest.raises(WebSocketDisconnect), client.websocket_connect("/ws") as ws:
             ws.receive_text()
         assert client.post("/api/login", json={"password": "wrong"}).status_code == 401
         assert client.post("/api/login", json={"password": pw}).status_code == 200
