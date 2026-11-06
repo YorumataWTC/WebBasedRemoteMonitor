@@ -28,6 +28,7 @@ def _serve(args: argparse.Namespace) -> None:
             "password": args.password,
             "encoder": args.encoder,
             "audio_device": args.audio_device,
+            "max_viewers": args.max_viewers,
         }.items()
         if v is not None
     }
@@ -104,6 +105,7 @@ def main(argv: list[str] | None = None) -> None:
     sp.add_argument("--no-audio", action="store_true")
     sp.add_argument("--audio-device", help="sounddevice input device name or index")
     sp.add_argument("--synthetic-audio", action="store_true", help="generate test tones instead of mic")
+    sp.add_argument("--max-viewers", type=int, help="limit concurrent WebSocket viewers (0 = unlimited)")
 
     vp = sub.add_parser("viewer", help="native reception software (OpenCV window)")
     vp.add_argument("url", nargs="?", default="http://localhost:8000")

@@ -23,6 +23,7 @@ Open the printed URL — `http://localhost:8000` on the server, `https://<server
 other PCs (accept the self-signed certificate once). Linux/macOS: `./start.sh`.
 
 Requirements: Python ≥ 3.12, Node.js ≥ 20, a webcam (optional).
+All start options: **[docs/GETTING_STARTED.md](docs/GETTING_STARTED.md)**.
 
 ## Other clients
 
@@ -40,6 +41,7 @@ cd web;    node scripts/e2e.mjs    # headless-Chrome test against a running serv
 
 ## Documentation
 
+* [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md) — **how to start the system, all options, troubleshooting**
 * [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — how the system works, design decisions, protocol, measurements
 * [report/report.pdf](report/report.pdf) — project report (EIE4428 template)
 * REST API: `http://localhost:8000/api/docs`
