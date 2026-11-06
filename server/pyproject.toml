@@ -1,0 +1,47 @@
+[project]
+name = "remote-monitor"
+version = "0.1.0"
+description = "Remote video monitoring server: capture, H.264/Opus compression and WebSocket delivery to browsers (WebCodecs)"
+readme = "README.md"
+authors = [
+    { name = "Julian Hugentobler", email = "hugenjul@students.zhaw.ch" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "av>=19.0.2",
+    "cryptography>=50.0.2",
+    "fastapi>=0.162.0",
+    "numpy>=2.5.4",
+    "opencv-python>=5.0.0.93",
+    "pydantic-settings>=2.16.2",
+    "sounddevice>=0.5.6",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[project.scripts]
+remote-monitor = "remote_monitor.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pyinstaller>=6.22.3",
+    "pytest>=9.2.0",
+    "pytest-asyncio>=1.4.1.post1",
+    "ruff>=0.17.4",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+ignore = ["SIM105"]

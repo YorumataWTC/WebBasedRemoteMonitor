@@ -1,0 +1,71 @@
+@import 'tailwindcss';
+
+/* Design tokens - dark "security console" theme */
+@theme {
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+
+  --color-bg: #070b14;
+  --color-panel: #0d1424;
+  --color-panel-2: #121b2f;
+  --color-line: #1e2a44;
+  --color-muted: #7d8bab;
+  --color-text: #e3e9f6;
+  --color-accent: #22d3ee;
+  --color-accent-2: #0ea5e9;
+  --color-ok: #34d399;
+  --color-warn: #fbbf24;
+  --color-alarm: #f43f5e;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* thin scrollbars inside panels */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #26334f transparent;
+}
+
+input[type='range'] {
+  accent-color: var(--color-accent);
+}
+
+@keyframes alarm-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px rgb(244 63 94 / 0.9), 0 0 40px rgb(244 63 94 / 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgb(244 63 94 / 0.25), 0 0 10px rgb(244 63 94 / 0.1);
+  }
+}
+
+.alarm-pulse {
+  animation: alarm-pulse 1s ease-in-out infinite;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.toast-in {
+  animation: toast-in 0.18s ease-out;
+}

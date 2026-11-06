@@ -1,0 +1,24 @@
+# Python
+server/.venv/
+__pycache__/
+*.pyc
+server/build/
+server/dist/
+.pytest_cache/
+.ruff_cache/
+
+# runtime data (recordings, events DB, certificates, settings)
+server/data/
+data/
+
+# AI models are downloaded with `remote-monitor models` (~43 MB)
+server/models/*.onnx
+*.part
+
+# Web
+web/node_modules/
+web/dist/
+web/*.tsbuildinfo
+
+# Report build artefacts
+report/*.pdf.tmp
